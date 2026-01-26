@@ -30,6 +30,10 @@ app.get('/health', (req, res) => {
     res.status(200).json({ status: 'ok', message: 'Server is running' });
 });
 
+app.get('/', (req, res) => {
+    res.send('Smart Link Hub API is running. Check /health for status.');
+});
+
 // Start Server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
