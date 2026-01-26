@@ -21,10 +21,16 @@ connectDB();
 import authRoutes from './routes/authRoutes';
 import hubRoutes from './routes/hubRoutes';
 import linkRoutes from './routes/linkRoutes';
+import uploadRoutes from './routes/uploadRoutes';
+import path from 'path';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/hubs', hubRoutes);
 app.use('/api/links', linkRoutes);
+app.use('/api/upload', uploadRoutes);
+
+// Serve uploaded files
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'ok', message: 'Server is running' });

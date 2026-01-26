@@ -16,6 +16,7 @@ export interface ILink extends Document {
     priority: number;
     isActive: boolean;
     rules: IRule[];
+    imageUrl?: string;
     analytics: {
         clicks: number;
     };
@@ -38,6 +39,7 @@ const LinkSchema: Schema = new Schema(
         priority: { type: Number, default: 0 },
         isActive: { type: Boolean, default: true },
         rules: { type: [RuleSchema], default: [] },
+        imageUrl: { type: String }, // URL to the uploaded image
         analytics: {
             clicks: { type: Number, default: 0 },
         },
