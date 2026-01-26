@@ -17,6 +17,13 @@
   --shadow-cyber-hover: 0 0 20px #00ff41;
 }
 
+:root.light {
+  --color-cyber-black: #f4f4f5;
+  --color-cyber-text: #000000;
+  --color-cyber-dark-gray: #e4e4e7;
+  --color-cyber-text-muted: #52525b;
+}
+
 @layer base {
   body {
     @apply bg-cyber-black text-cyber-text font-sans antialiased;

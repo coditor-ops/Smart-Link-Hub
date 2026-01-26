@@ -17,6 +17,7 @@ export interface ILink extends Document {
     isActive: boolean;
     rules: IRule[];
     imageUrl?: string;
+    shortHash?: string;
     analytics: {
         clicks: number;
     };
@@ -38,6 +39,7 @@ const LinkSchema: Schema = new Schema(
         title: { type: String, required: true },
         priority: { type: Number, default: 0 },
         isActive: { type: Boolean, default: true },
+        shortHash: { type: String, unique: true, sparse: true },
         rules: { type: [RuleSchema], default: [] },
         imageUrl: { type: String }, // URL to the uploaded image
         analytics: {

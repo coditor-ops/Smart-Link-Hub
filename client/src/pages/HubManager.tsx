@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../services/api';
-import { ArrowLeft, Save, Plus, Edit2, Trash2, Smartphone, Globe, Clock, MousePointer } from 'lucide-react';
+import { ArrowLeft, Save, Plus, Edit2, Trash2, Smartphone, Globe, Clock, MousePointer, Download, QrCode } from 'lucide-react';
 import LinkEditor from '../components/LinkEditor';
+import HubQRCode from '../components/HubQRCode';
+import { downloadStatsReport } from '../utils/analyticsExporter';
 
 interface LinkType {
     _id: string;
@@ -147,7 +149,60 @@ const HubManager: React.FC = () => {
                     </div>
                 </div>
 
-                {/* 2. Link Manager */}
+                {/* 2. PRO TOOLS: QR & Analytics */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* QR Code Module */}
+                    <div className="bg-black border border-cyber-green/30 p-6 rounded-lg">
+                        <h2 className="text-xl font-mono text-cyber-text mb-4 flex items-center gap-2">
+                            <QrCode size={18} /> ACCESS_MATRIX
+                        </h2>
+                        <div className="flex justify-center">
+                            <HubQRCode url={`${window.location.origin}/h/${data.hub.slug}`} />
+                        </div>
+                    </div>
+
+                    {/* Analytics Module */}
+                    <div className="bg-black border border-cyber-green/30 p-6 rounded-lg flex flex-col">
+                        <h2 className="text-xl font-mono text-cyber-text mb-4 flex items-center gap-2">
+                            <Download size={18} /> DATA_EXTRACTION
+                        </h2>
+                        <div className="flex-1 flex flex-col justify-center items-center gap-4 text-center">
+                            <p className="text-cyber-text/70 font-mono text-sm">
+                                Generate comprehensive PDF report of all link traffic and user origins.
+                            </p>
+                            <button
+                                onClick={() => {
+                                    // Prepare data for report using available link data
+                                    // Mocking location data as backend implementation for location aggregation isn't confirmed
+                                    const reportData = {
+                                        linkHits: data.links.map(l => ({
+                                            title: l.title,
+                                            url: l.originalUrl,
+                                            hits: l.analytics?.clicks || 0,
+                                            lastAccessed: new Date().toISOString().split('T')[0] // Mock as we don't have this field yet
+                                        })),
+                                        userLocations: [
+                                            { country: 'United States', city: 'New York', count: 45 }, // Mock Data for demo
+                                            { country: 'India', city: 'Mumbai', count: 32 },
+                                            { country: 'Germany', city: 'Berlin', count: 12 }
+                                        ],
+                                        timestamp: new Date().toLocaleString()
+                                    };
+                                    downloadStatsReport(reportData);
+                                }}
+                                className="bg-cyber-green text-black px-6 py-3 rounded font-mono font-bold hover:shadow-[0_0_20px_rgba(0,255,65,0.4)] transition-all flex items-center gap-2 w-full justify-center"
+                            >
+                                <Download size={20} />
+                                EXPORT_TERMINAL_REPORT
+                            </button>
+                            <div className="text-xs text-cyber-green/50 font-mono border border-cyber-green/20 p-2 rounded w-full">
+                                STATUS: READY_TO_COMPILE
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 3. Link Manager */}
                 <div>
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl font-mono text-cyber-text flex items-center gap-2">

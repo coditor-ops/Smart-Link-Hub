@@ -14,6 +14,11 @@ router.put('/:id', auth, LinkController.updateLink);
 router.delete('/:id', auth, LinkController.deleteLink);
 
 // PUBLIC: Click Link
+// PUBLIC: Click Link
 router.post('/:id/click', LinkController.trackClick);
+
+// URL Shortener
+import { createShortLink } from '../controllers/LinkShortenerController';
+router.post('/shorten', auth, createShortLink);
 
 export default router;

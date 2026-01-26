@@ -20,6 +20,7 @@ const UpdateHubSchema = z.object({
         backgroundColor: z.string().optional(),
         textColor: z.string().optional(),
         buttonColor: z.string().optional(),
+        avatarUrl: z.string().optional(),
     }).optional(),
 });
 

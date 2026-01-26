@@ -103,23 +103,46 @@ const PublicProfile: React.FC = () => {
         }
     };
 
-    const handleUpload = (file: File) => {
-        console.log("Uploading file...", file, "for target:", uploadTarget);
+    const handleUpload = async (file: File) => {
+        try {
+            const formData = new FormData();
+            formData.append('image', file);
 
-        // Mock Update State
-        const previewUrl = URL.createObjectURL(file);
+            setLoading(true);
+            const res = await api.post('/upload', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            const imageUrl = `http://localhost:5000${res.data.url}`;
 
-        if (uploadTarget?.type === 'profile') {
-            // Mock update profile avatar (not implemented in state fully but visual log)
-            console.log("Profile avatar updated");
-        } else if (uploadTarget?.type === 'link' && data) {
-            const updatedLinks = data.links.map(l =>
-                l._id === uploadTarget.id ? { ...l, imageUrl: previewUrl } : l
-            );
-            setData({ ...data, links: updatedLinks });
+            if (uploadTarget?.type === 'profile' && data) {
+                // Update Hub Config
+                await api.put(`/hubs/${data.hub._id}`, {
+                    themeConfig: {
+                        ...data.hub.themeConfig,
+                        avatarUrl: imageUrl
+                    }
+                });
+
+                // Update Local State
+                setData(prev => prev ? ({
+                    ...prev,
+                    hub: {
+                        ...prev.hub,
+                        themeConfig: {
+                            ...prev.hub.themeConfig,
+                            avatarUrl: imageUrl
+                        }
+                    }
+                }) : null);
+            }
+            // Link upload logic removed as feature moved to Config, but could support here if needed.
+        } catch (error) {
+            console.error("Upload failed", error);
+            alert("Failed to upload image");
+        } finally {
+            setLoading(false);
+            setShowUpload(false);
         }
-
-        setShowUpload(false);
     };
 
     if (loading) {
@@ -149,6 +172,7 @@ const PublicProfile: React.FC = () => {
             <div className="min-h-screen px-4 py-8 flex flex-col items-center max-w-2xl mx-auto">
                 <ProfileHeader
                     username={data.hub.slug}
+                    avatarUrl={data.hub.themeConfig?.avatarUrl}
                     isOwner={isOwner}
                     onEditProfile={() => console.log("Edit profile clicked")}
                     onUploadAvatar={() => {
@@ -167,11 +191,8 @@ const PublicProfile: React.FC = () => {
                             showClickCount={isOwner}
                             clickCount={link.clicks || 0}
                             imageUrl={link.imageUrl}
-                            isOwner={isOwner}
-                            onUploadImage={() => {
-                                setUploadTarget({ type: 'link', id: link._id });
-                                setShowUpload(true);
-                            }}
+                        // isOwner={isOwner} -> Removing this or keeping it for showClickCount? 
+                        // showClickCount uses isOwner. We just remove the upload handler.
                         />
                     ))}
 

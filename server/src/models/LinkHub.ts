@@ -22,6 +22,7 @@ const LinkHubSchema: Schema = new Schema(
             backgroundColor: { type: String, default: '#ffffff' },
             textColor: { type: String, default: '#000000' },
             buttonColor: { type: String, default: '#007bff' },
+            avatarUrl: { type: String },
         },
         stats: {
             totalViews: { type: Number, default: 0 },
