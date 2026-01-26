@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+@theme {
+  --color-cyber-black: #050505;
+  --color-cyber-dark-gray: #1a1a1a;
+  --color-cyber-green: #00ff41;
+  --color-cyber-text: #e5e5e5;
+  --color-cyber-text-muted: #a3a3a3;
+
+  --font-mono: "JetBrains Mono", monospace;
+  --font-sans: "Jost", sans-serif;
+  --font-mermaid: "Playfair Display", serif;
+
+  --shadow-cyber: 0 0 10px #00ff41;
+  --shadow-cyber-hover: 0 0 20px #00ff41;
+}
+
+@layer base {
+  body {
+    @apply bg-cyber-black text-cyber-text font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-mermaid;
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Custom Scrollbar for Cyber feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cyber-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-cyber-green);
+  opacity: 0.5;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-cyber-green);
+  opacity: 1;
+}

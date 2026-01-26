@@ -1,0 +1,136 @@
+{
+  "hubs": [
+    {
+      "themeConfig": {
+        "backgroundColor": "#0a0a0a",
+        "textColor": "#e5e5e5",
+        "buttonColor": "#00ff41"
+      },
+      "stats": {
+        "totalViews": 8
+      },
+      "_id": "6975b6d5806cfbe839605c1d",
+      "slug": "demo",
+      "ownerId": "6975b6d4806cfbe839605c1b",
+      "createdAt": "2026-01-25T06:23:17.002Z",
+      "updatedAt": "2026-01-25T06:41:37.962Z",
+      "__v": 0
+    },
+    {
+      "themeConfig": {
+        "backgroundColor": "#ffffff",
+        "textColor": "#000000",
+        "buttonColor": "#007bff"
+      },
+      "stats": {
+        "totalViews": 6
+      },
+      "_id": "6975bcc987e08d66e77c164e",
+      "slug": "my portfolio",
+      "ownerId": "6975bcb587e08d66e77c1649",
+      "createdAt": "2026-01-25T06:48:41.900Z",
+      "updatedAt": "2026-01-25T07:03:38.855Z",
+      "__v": 0
+    }
+  ],
+  "links": [
+    {
+      "analytics": {
+        "clicks": 1
+      },
+      "_id": "6975b6d5806cfbe839605c1f",
+      "hubId": "6975b6d5806cfbe839605c1d",
+      "originalUrl": "https://github.com",
+      "title": "My Portfolio",
+      "priority": 10,
+      "isActive": true,
+      "rules": [],
+      "__v": 0,
+      "createdAt": "2026-01-25T06:23:17.043Z",
+      "updatedAt": "2026-01-25T06:28:36.500Z"
+    },
+    {
+      "analytics": {
+        "clicks": 1
+      },
+      "_id": "6975b6d5806cfbe839605c20",
+      "hubId": "6975b6d5806cfbe839605c1d",
+      "originalUrl": "https://twitter.com",
+      "title": "Twitter (X)",
+      "priority": 8,
+      "isActive": true,
+      "rules": [],
+      "__v": 0,
+      "createdAt": "2026-01-25T06:23:17.043Z",
+      "updatedAt": "2026-01-25T06:28:50.097Z"
+    },
+    {
+      "analytics": {
+        "clicks": 0
+      },
+      "_id": "6975b6d5806cfbe839605c21",
+      "hubId": "6975b6d5806cfbe839605c1d",
+      "originalUrl": "https://www.apple.com/iphone/",
+      "title": "Mobile Only Link",
+      "priority": 5,
+      "isActive": true,
+      "rules": [
+        {
+          "type": "device",
+          "value": "mobile",
+          "action": "show"
+        }
+      ],
+      "__v": 0,
+      "createdAt": "2026-01-25T06:23:17.043Z",
+      "updatedAt": "2026-01-25T06:23:17.043Z"
+    },
+    {
+      "analytics": {
+        "clicks": 2
+      },
+      "_id": "6975b6d5806cfbe839605c22",
+      "hubId": "6975b6d5806cfbe839605c1d",
+      "originalUrl": "https://example.com/offer",
+      "title": "Limited Time Offer (09:00-17:00)",
+      "priority": 9,
+      "isActive": true,
+      "rules": [
+        {
+          "type": "time",
+          "value": "09:00-17:00",
+          "action": "show"
+        }
+      ],
+      "__v": 0,
+      "createdAt": "2026-01-25T06:23:17.043Z",
+      "updatedAt": "2026-01-25T06:29:32.524Z"
+    },
+    {
+      "analytics": {
+        "clicks": 0
+      },
+      "_id": "6975bd9987e08d66e77c1657",
+      "hubId": "6975bcc987e08d66e77c164e",
+      "originalUrl": "https://www.linkedin.com/in/pratush-prasad/",
+      "title": "linkedin",
+      "priority": 0,
+      "isActive": true,
+      "rules": [
+        {
+          "type": "time",
+          "value": "12:20-12:59",
+          "action": "show"
+        },
+        {
+          "type": "device",
+          "value": "mobile",
+          "action": "show"
+        }
+      ],
+      "createdAt": "2026-01-25T06:52:09.449Z",
+      "updatedAt": "2026-01-25T06:52:09.449Z",
+      "__v": 0
+    }
+  ]
+}
