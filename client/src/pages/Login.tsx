@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import { Lock } from 'lucide-react';
@@ -9,6 +9,8 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState('');
     const { login } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+    const message = location.state?.message;
     const [error, setError] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -35,6 +37,12 @@ const Login: React.FC = () => {
                     </div>
                 </div>
                 <h2 className="text-2xl font-mono font-bold text-center text-cyber-green mb-8">ACCESS_TERMINAL</h2>
+
+                {message && (
+                    <div className="bg-green-500/10 border border-green-500 text-green-500 p-3 rounded mb-4 font-mono text-sm">
+                        {message}
+                    </div>
+                )}
 
                 {error && (
                     <div className="bg-red-500/10 border border-red-500 text-red-500 p-3 rounded mb-4 font-mono text-sm">

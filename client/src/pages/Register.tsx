@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+// import { useAuth } from '../context/AuthContext'; // Removed unused import
 import api from '../services/api';
 import { UserPlus } from 'lucide-react';
 
@@ -8,16 +8,18 @@ const Register: React.FC = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { login } = useAuth();
+
     const navigate = useNavigate();
     const [error, setError] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await api.post('/auth/register', { username, email, password });
-            login(res.data.token);
-            navigate('/dashboard');
+            await api.post('/auth/register', { username, email, password });
+            // Instead of auto-login, redirect to login page with success message
+            navigate('/login', {
+                state: { message: 'Registration successful! Please login to continue.' }
+            });
         } catch (err: any) {
             setError(
                 err.response?.data?.errors?.[0]?.msg ||

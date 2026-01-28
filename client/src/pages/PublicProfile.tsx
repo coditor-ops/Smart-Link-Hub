@@ -36,7 +36,7 @@ const PublicProfile: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [showUpload, setShowUpload] = useState(false);
-    const [uploadTarget, setUploadTarget] = useState<{ type: 'profile' | 'link', id?: string } | null>(null);
+    const [uploadTarget] = useState<{ type: 'profile' | 'link', id?: string } | null>(null);
 
     // Mock verification for ownership - in real app, check user._id === data.hub.ownerId
     // For this demo, we'll assume if you're logged in, you can see the edit button (or check if user exists)
@@ -173,12 +173,12 @@ const PublicProfile: React.FC = () => {
                 <ProfileHeader
                     username={data.hub.slug}
                     avatarUrl={data.hub.themeConfig?.avatarUrl}
-                    isOwner={isOwner}
+                    isOwner={false /* Locked: Company Only */}
                     onEditProfile={() => console.log("Edit profile clicked")}
-                    onUploadAvatar={() => {
-                        setUploadTarget({ type: 'profile' });
-                        setShowUpload(true);
-                    }}
+                // onUploadAvatar={() => {
+                // setUploadTarget({ type: 'profile' });
+                // setShowUpload(true);
+                // }}
                 />
 
                 <div className="w-full space-y-4 mt-8">

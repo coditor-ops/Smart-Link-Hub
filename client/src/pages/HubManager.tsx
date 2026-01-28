@@ -13,6 +13,7 @@ interface LinkType {
     priority: number;
     isActive: boolean;
     rules: any[];
+    imageUrl?: string;
     analytics: { clicks: number };
 }
 
@@ -227,8 +228,15 @@ const HubManager: React.FC = () => {
                             {data.links.map(link => (
                                 <div key={link._id} className="bg-black border border-cyber-green/20 p-4 rounded flex justify-between items-center group hover:border-cyber-green/50 transition-all">
                                     <div>
-                                        <h3 className="font-mono text-cyber-green font-bold text-lg">{link.title}</h3>
-                                        <p className="font-mono text-cyber-text/50 text-sm truncate max-w-md">{link.originalUrl}</p>
+                                        <div className="flex items-center gap-3">
+                                            {link.imageUrl && (
+                                                <img src={link.imageUrl} alt={link.title} className="w-10 h-10 rounded object-cover border border-cyber-green/30" />
+                                            )}
+                                            <div>
+                                                <h3 className="font-mono text-cyber-green font-bold text-lg">{link.title}</h3>
+                                                <p className="font-mono text-cyber-text/50 text-sm truncate max-w-md">{link.originalUrl}</p>
+                                            </div>
+                                        </div>
 
                                         {/* Rules Badges */}
                                         <div className="flex gap-2 mt-2">

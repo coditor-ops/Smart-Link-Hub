@@ -174,8 +174,8 @@ const LinkEditor: React.FC<LinkEditorProps> = ({ initialLink, onSave, onCancel }
                     />
                 </div>
                 <div>
-                    <label className="block text-cyber-text font-mono text-sm mb-1">LINK IMAGE (OPTIONAL)</label>
-                    <div className="flex items-center gap-4">
+                    <label className="block text-cyber-text font-mono text-sm mb-1">LINK IMAGE (LOCKED: COMPANY ONLY)</label>
+                    {/* <div className="flex items-center gap-4">
                         {link.imageUrl && (
                             <img src={link.imageUrl} alt="Preview" className="w-12 h-12 rounded object-cover border border-cyber-green/30" />
                         )}
@@ -183,27 +183,13 @@ const LinkEditor: React.FC<LinkEditorProps> = ({ initialLink, onSave, onCancel }
                             type="file"
                             accept="image/*"
                             onChange={async (e) => {
-                                const file = e.target.files?.[0];
-                                if (!file) return;
-
-                                // TODO: Ideally pass a callback for upload handling to keep component pure,
-                                // but for speed we can inline or assume a prop.
-                                // Let's try to upload immediately here or store file to upload on save?
-                                // User wants "configure tab" so immediate upload is fine or on save.
-                                // Let's do immediate to get URL.
-                                try {
-                                    const formData = new FormData();
-                                    formData.append('image', file);
-                                    const res = await api.post('/upload', formData, {
-                                        headers: { 'Content-Type': 'multipart/form-data' }
-                                    });
-                                    setLink({ ...link, imageUrl: `http://localhost:5000${res.data.url}` });
-                                } catch (err) {
-                                    alert('Failed to upload image');
-                                }
+                                // Upload Logic Disabled by Admin Policy
                             }}
-                            className="bg-transparent text-cyber-text font-mono text-sm file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-cyber-green/10 file:text-cyber-green hover:file:bg-cyber-green/20"
+                            className="..."
                         />
+                    </div> */}
+                    <div className="text-xs text-cyber-text/30 italic font-mono p-2 border border-cyber-green/10 rounded">
+                        Image management is restricted to Company Administrators.
                     </div>
                 </div>
             </div>
