@@ -75,7 +75,7 @@ const Dashboard: React.FC = () => {
                                 <Plus size={20} /> DEPLOY_NEW_HUB
                             </button>
                         ) : (
-                            <form onSubmit={handleCreateHub} className="flex gap-4 items-end bg-cyber-dark-gray border border-cyber-green p-6 rounded-xl shadow-cyber max-w-2xl animate-in fade-in slide-in-from-top-4">
+                            <form onSubmit={handleCreateHub} className="flex flex-col md:flex-row gap-4 items-stretch md:items-end bg-cyber-dark-gray border border-cyber-green p-6 rounded-xl shadow-cyber max-w-2xl animate-in fade-in slide-in-from-top-4">
                                 <div className="flex-1">
                                     <label className="block text-cyber-green font-mono text-sm mb-2">&gt; ENTER_SLUG_IDENTIFIER</label>
                                     <div className="flex items-center gap-2">
@@ -85,17 +85,19 @@ const Dashboard: React.FC = () => {
                                             value={newHubSlug}
                                             onChange={e => setNewHubSlug(e.target.value)}
                                             placeholder="my-portfolio"
-                                            className="flex-1 bg-black border border-cyber-text-muted/30 focus:border-cyber-green text-white p-2 rounded focus:outline-none font-mono"
+                                            className="flex-1 bg-black border border-cyber-text-muted/30 focus:border-cyber-green text-white p-2 rounded focus:outline-none font-mono min-w-0"
                                             autoFocus
                                         />
                                     </div>
                                 </div>
-                                <button type="submit" className="bg-cyber-green text-black px-6 py-2 rounded font-mono font-bold hover:brightness-110">
-                                    INITIALIZE
-                                </button>
-                                <button type="button" onClick={() => setIsCreating(false)} className="text-cyber-text hover:text-white font-mono px-4">
-                                    ABORT
-                                </button>
+                                <div className="flex gap-2 flex-col md:flex-row">
+                                    <button type="submit" className="bg-cyber-green text-black px-6 py-2 rounded font-mono font-bold hover:brightness-110 whitespace-nowrap">
+                                        INITIALIZE
+                                    </button>
+                                    <button type="button" onClick={() => setIsCreating(false)} className="text-cyber-text hover:text-white font-mono px-4 py-2 border border-transparent hover:border-white/20 rounded">
+                                        ABORT
+                                    </button>
+                                </div>
                             </form>
                         )}
                     </div>
