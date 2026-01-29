@@ -29,6 +29,10 @@
     @apply bg-cyber-black text-cyber-text font-sans antialiased;
   }
 
+  button {
+    @apply transition-transform duration-200 active:scale-95;
+  }
+
   h1,
   h2,
   h3,

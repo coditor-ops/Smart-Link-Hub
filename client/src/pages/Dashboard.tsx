@@ -91,10 +91,10 @@ const Dashboard: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="flex gap-2 flex-col md:flex-row">
-                                    <button type="submit" className="bg-cyber-green text-black px-6 py-2 rounded font-mono font-bold hover:brightness-110 whitespace-nowrap">
+                                    <button type="submit" className="bg-cyber-green text-black px-6 py-2 rounded font-mono font-bold hover:bg-white hover:text-black transition-all whitespace-nowrap">
                                         INITIALIZE
                                     </button>
-                                    <button type="button" onClick={() => setIsCreating(false)} className="text-cyber-text hover:text-white font-mono px-4 py-2 border border-transparent hover:border-white/20 rounded">
+                                    <button type="button" onClick={() => setIsCreating(false)} className="text-cyber-text hover:bg-white hover:text-black font-mono px-4 py-2 border border-transparent hover:border-white/20 rounded transition-all">
                                         ABORT
                                     </button>
                                 </div>
