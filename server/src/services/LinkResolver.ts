@@ -55,11 +55,8 @@ export const resolveLinks = (hub: PopulatedLinkHub, context: RequestContext): IL
     const filteredLinks = hub.links.filter((link) => {
         if (!link.isActive) return false;
 
-        console.log(`[LinkResolver] Processing Link: ${link.title} (${link.originalUrl})`);
-
-        // Check all rules
+        // Rule check loop
         for (const rule of link.rules) {
-            console.log(`  - Checking Rule: ${rule.type} | Value: ${rule.value} | Action: ${rule.action}`);
 
             if (rule.type === 'time') {
                 // Format expected: "HH:mm-HH:mm" (24h)
@@ -94,16 +91,13 @@ export const resolveLinks = (hub: PopulatedLinkHub, context: RequestContext): IL
                         isWithin = currentMinutes >= startMinutes || currentMinutes <= endMinutes;
                     }
 
-                    console.log(`    > Time Check: ${isWithin} (Now: ${now.toLocaleTimeString()}, Range: ${start}-${end})`);
-
                     if (rule.action === 'show' && !isWithin) return false;
                     if (rule.action === 'hide' && isWithin) return false;
                 }
             } else if (rule.type === 'device') {
-                const targetDevices = rule.value.toLowerCase().split(','); // 'mobile,tablet' -> ['mobile', 'tablet']
+                const targetDevices = rule.value.toLowerCase().split(','); 
                 let isMatch = false;
 
-                // Check if ANY of the target devices match the current device type
                 for (const target of targetDevices) {
                     const cleanTarget = target.trim();
                     if (cleanTarget === 'mobile' && deviceType === 'mobile') isMatch = true;
@@ -111,20 +105,12 @@ export const resolveLinks = (hub: PopulatedLinkHub, context: RequestContext): IL
                     if (cleanTarget === 'desktop' && (deviceType === 'desktop' || deviceType === undefined)) isMatch = true;
                 }
 
-                console.log(`    > Device Check: Match? ${isMatch} (UserDevice: ${deviceType}, Targets: ${targetDevices.join('|')})`);
-
                 if (rule.action === 'show' && !isMatch) return false;
                 if (rule.action === 'hide' && isMatch) return false;
             } else if (rule.type === 'location') {
-                const targetLocations = rule.value.split(','); // e.g. "India,Mumbai,10001"
+                const targetLocations = rule.value.split(','); 
 
-                // Default Fallback: If user location is unknown, should we match?
-                // If rule is SHOW, and we don't know where user is -> Safe to Hide? (Access Denied)
-                // If rule is HIDE, and we don't know where user is -> Safe to Show?
-                // Let's assume strictness: If checking for location, and location is unknown, return false (no match).
                 const isMatch = shouldShowLink(targetLocations, context.location, false);
-
-                console.log(`    > Location Check: Match? ${isMatch} (UserLoc: ${JSON.stringify(context.location)}, Targets: ${targetLocations.join('|')})`);
 
                 if (rule.action === 'show' && !isMatch) return false;
                 if (rule.action === 'hide' && isMatch) return false;

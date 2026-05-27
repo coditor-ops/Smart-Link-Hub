@@ -11,6 +11,7 @@ interface ImageUploadProps {
 const ImageUpload: React.FC<ImageUploadProps> = ({ currentImage, onUpload, onCancel }) => {
     const [dragActive, setDragActive] = useState(false);
     const [preview, setPreview] = useState<string | null>(null);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleDrag = (e: React.DragEvent) => {
@@ -47,8 +48,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ currentImage, onUpload, onCan
         };
         reader.readAsDataURL(file);
 
-        // Trigger upload callback
-        onUpload(file);
+        // Store file in state for confirmation
+        setSelectedFile(file);
     };
 
     return (
@@ -117,8 +118,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ currentImage, onUpload, onCan
                         Cancel
                     </button>
                     <button
-                        onClick={() => preview && console.log('Confirm upload')}
-                        disabled={!preview}
+                        onClick={() => selectedFile && onUpload(selectedFile)}
+                        disabled={!selectedFile}
                         className="px-4 py-2 rounded text-sm font-mono bg-cyber-green text-black font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-cyber transition-all"
                     >
                         Confirm Upload

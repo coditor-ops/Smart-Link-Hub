@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, Save, X } from 'lucide-react';
-import api from '../services/api';
 import TargetLocationSelector from './TargetLocationSelector';
 import type { ITargetLocation } from './TargetLocationSelector';
 
@@ -123,40 +122,23 @@ const LinkEditor: React.FC<LinkEditorProps> = ({ initialLink, onSave, onCancel }
         }));
     };
 
-    const handleSave = async () => {
-        try {
-            // If it has an ID, update; otherwise create (logic handled by parent or here)
-            // For this component, we just pass the object back to the parent to handle the API call usually,
-            // or we can call the API directly here. The Requirement said "Submit: Send JSON object to updateLinkRules endpoint".
-
-            // Validation
-            if (!link.title || !link.originalUrl) return alert('Title and URL are required');
-
-            if (link._id) {
-                await api.put(`/links/${link._id}`, link);
-            } else {
-                // If creating new, we might need hubId. 
-                // For now, let's assume this editor is mostly for editing existing links or the parent handles creation.
-                // call onSave to let parent know or refetch.
-            }
-            onSave(link);
-        } catch (error) {
-            console.error('Failed to save link', error);
-            alert('Failed to save link');
-        }
+    const handleSave = () => {
+        // Validation
+        if (!link.title || !link.originalUrl) return alert('Title and URL are required');
+        onSave(link);
     };
 
     return (
         <div className="bg-cyber-black border border-cyber-green p-6 rounded-lg shadow-cyber max-w-2xl mx-auto">
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-mono text-cyber-green">EDIT LINK_NODE</h2>
+                <h2 className="text-2xl font-mono text-cyber-green">Edit Link</h2>
                 <button onClick={onCancel} className="text-cyber-text hover:text-red-500"><X /></button>
             </div>
 
             {/* Basic Info */}
             <div className="space-y-4 mb-8">
                 <div>
-                    <label className="block text-cyber-text font-mono text-sm mb-1">TITLE</label>
+                    <label className="block text-cyber-text font-mono text-sm mb-1">Title</label>
                     <input
                         type="text"
                         value={link.title}
@@ -165,7 +147,7 @@ const LinkEditor: React.FC<LinkEditorProps> = ({ initialLink, onSave, onCancel }
                     />
                 </div>
                 <div>
-                    <label className="block text-cyber-text font-mono text-sm mb-1">DESTINATION URL</label>
+                    <label className="block text-cyber-text font-mono text-sm mb-1">URL</label>
                     <input
                         type="text"
                         value={link.originalUrl}
@@ -196,7 +178,7 @@ const LinkEditor: React.FC<LinkEditorProps> = ({ initialLink, onSave, onCancel }
 
             {/* Rules Builder */}
             <div className="mb-8">
-                <h3 className="text-cyber-green font-mono text-lg mb-4 border-b border-cyber-green/30 pb-2">TRAFFIC_RULES</h3>
+                <h3 className="text-cyber-green font-mono text-lg mb-4 border-b border-cyber-green/30 pb-2">Settings</h3>
 
                 {/* Existing Rules */}
                 <div className="space-y-2 mb-4">
@@ -288,19 +270,19 @@ const LinkEditor: React.FC<LinkEditorProps> = ({ initialLink, onSave, onCancel }
                         onClick={handleAddRule}
                         className="w-full flex items-center justify-center gap-2 bg-cyber-green/10 hover:bg-cyber-green/20 text-cyber-green border border-cyber-green/50 py-2 rounded transition-colors font-mono text-sm"
                     >
-                        <Plus size={16} /> ADD RULE
+                        <Plus size={16} /> Add
                     </button>
                 </div>
             </div>
 
             {/* Footer Actions */}
             <div className="flex justify-end gap-3 pt-4 border-t border-cyber-green/30">
-                <button onClick={onCancel} className="px-4 py-2 text-cyber-text hover:text-white font-mono text-sm">CANCEL</button>
+                <button onClick={onCancel} className="px-4 py-2 text-cyber-text hover:text-white font-mono text-sm">Cancel</button>
                 <button
                     onClick={handleSave}
                     className="flex items-center gap-2 bg-cyber-green text-black px-6 py-2 rounded font-bold hover:shadow-cyber transition-all font-mono"
                 >
-                    <Save size={18} /> SAVE CHANGES
+                    <Save size={18} /> Save
                 </button>
             </div>
         </div>

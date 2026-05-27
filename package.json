@@ -1,0 +1,16 @@
+{
+  "name": "smart-link-hub-root",
+  "version": "1.0.0",
+  "description": "Root folder for Smart Link Hub system",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client && npm install --prefix landing-page",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "dev:landing": "npm run dev --prefix landing-page",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

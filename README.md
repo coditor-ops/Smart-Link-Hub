@@ -1,4 +1,4 @@
-# Smart Link Hub (v1)
+# Smart Link Hub (v2)
 
 A premium, "Modern Cyberpunk" Linktree-style application designed for professionals who want to make a statement. Built with the MERN stack (MongoDB, Express, React, Node.js) and styled with Tailwind CSS and Framer Motion for a highly interactive, "alive" feel.
 
@@ -37,28 +37,36 @@ A premium, "Modern Cyberpunk" Linktree-style application designed for profession
 - Node.js installed.
 - MongoDB instance (local or Atlas) running.
 
-### 1. Backend Setup
+### 1. Quick Start (Recommended)
+You can set up and run both client and server concurrently from the root directory:
+```bash
+npm run install:all
+npm run dev
+```
+This will start:
+- The **Frontend (React + Vite)** on `http://localhost:5173` (serving both the Landing page and client dashboard/login/hubs).
+- The **Backend API** on `http://localhost:5000`.
+
+### 2. Manual Setup (Alternative)
+
+#### Backend Setup
 ```bash
 cd server
 npm install
-# Create a .env file with your MONGO_URI and PORT
+# Create a .env file with MONGO_URI, JWT_SECRET, and PORT
 npm run dev
 ```
 
-### 2. Frontend Setup
+#### Frontend Setup
 ```bash
 cd client
 npm install
 npm run dev
 ```
 
-The client will typically run on `http://localhost:5173` (or 5174 if occupied), and the server on your specified port (default 5000).
-
 ## 📂 Project Structure
 
--   `/client`: React frontend application.
-    -   `/src/components`: Reusable UI components (LinkCard, Layout, etc.).
-    -   `/src/pages`: Main application pages (PublicProfile, Dashboard, etc.).
+-   `/client`: React frontend application (with landing page integrated at root `/`).
 -   `/server`: Node.js/Express backend API.
     -   `/src/models`: Mongoose schemas (Hub, Link).
     -   `/src/routes`: API endpoints.
@@ -68,4 +76,4 @@ The client will typically run on `http://localhost:5173` (or 5174 if occupied), 
 This project is currently in v1 status. Feel free to fork and submit PRs for new "modules" or visual themes.
 
 ---
-*System Online // Smart_Link_Hub_v1*
+*System Online // Smart_Link_Hub_v2*

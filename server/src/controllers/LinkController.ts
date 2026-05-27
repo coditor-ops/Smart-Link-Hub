@@ -17,6 +17,7 @@ const CreateLinkSchema = z.object({
     priority: z.number().optional(),
     isActive: z.boolean().optional(),
     rules: z.array(LinkRuleSchema).optional(),
+    imageUrl: z.string().optional(),
 });
 
 const UpdateLinkSchema = z.object({
@@ -25,6 +26,7 @@ const UpdateLinkSchema = z.object({
     priority: z.number().optional(),
     isActive: z.boolean().optional(),
     rules: z.array(LinkRuleSchema).optional(),
+    imageUrl: z.string().optional(),
 });
 
 export const LinkController = {

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LinkHub - Your Links. Your Rules.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "tertiary": "#ffb781",
+                "error": "#ffb4ab",
+                "surface": "#131313",
+                "on-tertiary-fixed-variant": "#703800",
+                "secondary-container": "#00eefc",
+                "tertiary-fixed": "#ffdcc4",
+                "primary": "#dfb7ff",
+                "on-secondary-fixed-variant": "#004f54",
+                "outline-variant": "#4e4356",
+                "inverse-primary": "#8c00e5",
+                "on-tertiary-fixed": "#2f1400",
+                "surface-variant": "#353535",
+                "on-surface": "#e2e2e2",
+                "outline": "#9a8ca2",
+                "on-background": "#e2e2e2",
+                "primary-fixed-dim": "#dfb7ff",
+                "on-secondary": "#00363a",
+                "surface-tint": "#dfb7ff",
+                "on-error": "#690005",
+                "surface-container-low": "#1b1b1b",
+                "on-secondary-container": "#00686f",
+                "primary-fixed": "#f1daff",
+                "error-container": "#93000a",
+                "surface-dim": "#131313",
+                "on-tertiary-container": "#ffe7d8",
+                "on-error-container": "#ffdad6",
+                "on-primary-fixed": "#2d004f",
+                "inverse-surface": "#e2e2e2",
+                "on-primary-fixed-variant": "#6b00b0",
+                "surface-container": "#1f1f1f",
+                "on-primary": "#4b007e",
+                "background": "#131313",
+                "secondary": "#d3fbff",
+                "on-secondary-fixed": "#002022",
+                "primary-container": "#9d00ff",
+                "surface-container-high": "#2a2a2a",
+                "on-tertiary": "#4e2500",
+                "tertiary-container": "#a45500",
+                "secondary-fixed-dim": "#00dbe9",
+                "on-primary-container": "#f7e5ff",
+                "on-surface-variant": "#d1c1d9",
+                "inverse-on-surface": "#303030",
+                "surface-container-highest": "#353535",
+                "secondary-fixed": "#7df4ff",
+                "tertiary-fixed-dim": "#ffb781",
+                "surface-container-lowest": "#0e0e0e",
+                "surface-bright": "#393939"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "fontFamily": {
+                "headline": ["Inter"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .kinetic-gradient {
+            background: linear-gradient(135deg, #9D00FF 0%, #00E0FF 100%);
+        }
+        .glass-card {
+            background: rgba(53, 53, 53, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(78, 67, 86, 0.15);
+        }
+        .hero-glow {
+            background: radial-gradient(circle at center, rgba(157, 0, 255, 0.15) 0%, rgba(19, 19, 19, 0) 70%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-white">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-black/40 backdrop-blur-xl shadow-[0_0_30px_rgba(180,134,255,0.05)]">
+<div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-black tracking-tighter text-[#8eff71] font-['Inter']">LinkHub</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-[#8eff71] font-bold border-b-2 border-[#8eff71] pb-1 font-['Inter'] tracking-tight" href="#">Features</a>
+<a class="text-gray-400 font-medium hover:text-[#b486ff] transition-all duration-300 font-['Inter'] tracking-tight" href="#">Solutions</a>
+<a class="text-gray-400 font-medium hover:text-[#b486ff] transition-all duration-300 font-['Inter'] tracking-tight" href="#">Pricing</a>
+<a class="text-gray-400 font-medium hover:text-[#b486ff] transition-all duration-300 font-['Inter'] tracking-tight" href="#">Company</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-gray-400 font-medium hover:text-[#b486ff] transition-all duration-300 Active:scale-95 transition-transform font-['Inter']">Login</button>
+<button class="bg-[#8eff71] text-black px-6 py-2 rounded-lg font-bold hover:scale-105 transition-all font-['Inter']">Get Started</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative pt-32 pb-20 overflow-hidden">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full hero-glow -z-10"></div>
+<div class="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="space-y-8">
+<div class="inline-block px-4 py-1.5 rounded-full border border-outline-variant/30 bg-surface-container-low">
+<span class="text-[10px] uppercase tracking-[0.2em] font-bold text-secondary">The New Digital Standard</span>
+</div>
+<h1 class="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] text-on-surface">
+                    Your Links.<br/>
+<span class="text-transparent bg-clip-text kinetic-gradient">Your Rules.</span>
+</h1>
+<p class="text-body-lg text-on-surface-variant max-w-lg leading-relaxed text-lg">
+                    The ultimate command center for your digital presence. Consolidate your world into a single, high-performance portal.
+                </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="kinetic-gradient text-on-primary-fixed px-10 py-4 rounded-lg font-bold text-lg hover:shadow-[0_0_30px_rgba(157,0,255,0.4)] transition-all Active:scale-95">Get Started</button>
+<button class="glass-card px-10 py-4 rounded-lg font-bold text-lg border border-outline-variant/20 hover:bg-surface-variant/30 transition-all">View Demo</button>
+</div>
+</div>
+<div class="relative group">
+<div class="absolute inset-0 kinetic-gradient blur-[80px] opacity-20 group-hover:opacity-30 transition-opacity"></div>
+<div class="relative glass-card rounded-xl p-4 overflow-hidden shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-700">
+<img alt="Dashboard Mockup" class="w-full h-auto rounded-lg" data-alt="Futuristic data visualization dashboard with neon violet and cyan graphs on a dark glass interface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIc9hpa57HIwvpc0HbOhH7cxVXQm6VpflGJY40l85IWwtyfxu7RiR_QJKl4368p7uWatMYmsmggZ6_MmNNwtKGznTn5qx5pw-x3R6ttVR7mBxFVOmZMNcJjXhTNygeS8Q_caZ0ORbidXH2HsskvWHSrQ87q4roDsE7B3UINeBborNmKiy9CuT7isgnTf0kCywa5tX-ppIwpWslE8ypBxc-oyayT-x-KfvJr_1Rm8I0NINOMVOKTMuZRFohCbXwVC5tlwvSAb3Qtac"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Section (Bento Grid) -->
+<section class="py-32 bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto px-8">
+<div class="mb-20 space-y-4">
+<h2 class="text-[12px] uppercase tracking-[0.3em] font-bold text-primary">Engineered for Impact</h2>
+<h3 class="text-4xl md:text-5xl font-black tracking-tighter">Beyond Simple Redirects</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Large Feature Card -->
+<div class="md:col-span-2 glass-card p-10 rounded-xl group hover:bg-surface-container-high transition-all">
+<div class="flex flex-col h-full justify-between gap-12">
+<div class="space-y-4">
+<span class="material-symbols-outlined text-secondary-container text-4xl" data-icon="monitoring">monitoring</span>
+<h4 class="text-3xl font-bold">Smart Analytics</h4>
+<p class="text-on-surface-variant max-w-md">Real-time tracking of every click, conversion, and user journey. Understand your audience with granular precision through our neural-link data processing.</p>
+</div>
+<div class="w-full h-48 bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant/10">
+<div class="h-full w-full bg-gradient-to-tr from-primary/10 to-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-surface-variant text-8xl" data-icon="query_stats">query_stats</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Vertical Card -->
+<div class="glass-card p-10 rounded-xl flex flex-col justify-between hover:scale-[1.02] transition-all">
+<div class="space-y-4">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="language">language</span>
+<h4 class="text-2xl font-bold">Global Reach</h4>
+<p class="text-on-surface-variant">Edge-delivery networking ensures your links load in milliseconds anywhere on the planet.</p>
+</div>
+<div class="pt-8 flex -space-x-4">
+<div class="w-12 h-12 rounded-full border-2 border-surface bg-surface-variant flex items-center justify-center">US</div>
+<div class="w-12 h-12 rounded-full border-2 border-surface bg-surface-variant flex items-center justify-center">EU</div>
+<div class="w-12 h-12 rounded-full border-2 border-surface bg-surface-variant flex items-center justify-center">AS</div>
+</div>
+</div>
+<!-- Small Square Card 1 -->
+<div class="glass-card p-10 rounded-xl hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-tertiary text-4xl mb-6" data-icon="brush">brush</span>
+<h4 class="text-2xl font-bold mb-2">Dynamic Branding</h4>
+<p class="text-on-surface-variant">Your brand, your colors. Custom CSS and themes for every link page.</p>
+</div>
+<!-- Small Square Card 2 -->
+<div class="glass-card p-10 rounded-xl hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-secondary-container text-4xl mb-6" data-icon="security">security</span>
+<h4 class="text-2xl font-bold mb-2">Vault Security</h4>
+<p class="text-on-surface-variant">Password protection, age gates, and end-to-end encryption for sensitive assets.</p>
+</div>
+<!-- Small Square Card 3 -->
+<div class="glass-card p-10 rounded-xl hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-primary text-4xl mb-6" data-icon="bolt">bolt</span>
+<h4 class="text-2xl font-bold mb-2">Instant Sync</h4>
+<p class="text-on-surface-variant">Update once, sync everywhere. Zero-latency propagation across social channels.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Content / Stats Section -->
+<section class="py-32 relative overflow-hidden">
+<div class="max-w-7xl mx-auto px-8 flex flex-col lg:flex-row items-center gap-24">
+<div class="w-full lg:w-1/2">
+<div class="relative">
+<div class="absolute -top-10 -left-10 w-40 h-40 kinetic-gradient blur-[100px] opacity-20"></div>
+<img alt="Abstract visual" class="w-full h-auto rounded-2xl shadow-3xl grayscale hover:grayscale-0 transition-all duration-1000" data-alt="Abstract smooth flowing liquid metallic shapes with neon violet and cyan reflections" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAoTE2UjaZO8-07WkbefkmDnZYoF8ShezpvL0Gbb2cGwpG85Td3iQFgPWb6oIfoLzrAAAmMTu6FClxJP3fmw0VsGggbQa57Ne5H-Px5nTiNtY42eXFc6d4xyQf54siuihLgadq8gW6jvhvRSyCAikuG3MQArrNRNh6yD2MaM8P81B7NbGTmx9WjJeOYa5iJBeWl1uTtM27rNs5sfuDH67T-vkP7LSuid-1K65YKRdzqjF4lKONe8IUndPZZ4JfRtffk90EoDY9CCw"/>
+</div>
+</div>
+<div class="w-full lg:w-1/2 space-y-12">
+<h3 class="text-5xl font-black tracking-tighter leading-none">Powering the Next<br/>Generation of Creators</h3>
+<div class="space-y-8">
+<div class="flex gap-6 items-start">
+<div class="w-12 h-12 shrink-0 rounded-lg bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary-container" data-icon="groups">groups</span>
+</div>
+<div>
+<h5 class="text-xl font-bold mb-1">1M+ Active Users</h5>
+<p class="text-on-surface-variant">Trusted by the world's most influential digital natives.</p>
+</div>
+</div>
+<div class="flex gap-6 items-start">
+<div class="w-12 h-12 shrink-0 rounded-lg bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="dataset">dataset</span>
+</div>
+<div>
+<h5 class="text-xl font-bold mb-1">500TB Data Processed</h5>
+<p class="text-on-surface-variant">A robust infrastructure built for hyper-scale traffic.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full border-t border-[#484848]/20 bg-[#000000]">
+<div class="max-w-7xl mx-auto px-12 py-16 flex flex-col gap-12">
+<div class="flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="space-y-6 max-w-sm">
+<div class="text-2xl font-bold text-white">LinkHub</div>
+<p class="text-gray-500 font-['Inter'] leading-relaxed">Redefining the digital gateway. Built for the kinetic void.</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-lg glass-card flex items-center justify-center hover:text-[#81ecff] transition-colors" href="#"><span class="material-symbols-outlined" data-icon="share">share</span></a>
+<a class="w-10 h-10 rounded-lg glass-card flex items-center justify-center hover:text-[#81ecff] transition-colors" href="#"><span class="material-symbols-outlined" data-icon="hub">hub</span></a>
+<a class="w-10 h-10 rounded-lg glass-card flex items-center justify-center hover:text-[#81ecff] transition-colors" href="#"><span class="material-symbols-outlined" data-icon="public">public</span></a>
+</div>
+</div>
+<div class="w-full md:w-1/2 glass-card p-8 rounded-xl space-y-6 border border-outline-variant/10">
+<h6 class="text-lg font-bold text-white uppercase tracking-widest font-['Space_Grotesk']">Join the Pulse</h6>
+<form class="flex flex-col md:flex-row gap-4">
+<input class="flex-grow bg-surface-container-lowest border-0 border-b border-outline-variant/30 text-on-surface focus:ring-0 focus:border-secondary-container transition-all px-0 py-3 outline-none" placeholder="Enter your email" type="email"/>
+<button class="bg-[#8eff71] text-black px-8 py-3 rounded-lg font-bold hover:bg-white transition-colors">Subscribe</button>
+</form>
+<p class="text-[10px] text-gray-500 font-['Space_Grotesk'] uppercase tracking-widest">Get the latest updates on features and digital strategy.</p>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center gap-8 border-t border-outline-variant/10 pt-12">
+<p class="font-['Space_Grotesk'] uppercase tracking-[0.05em] text-[12px] text-gray-500">© 2024 LinkHub Kinetic. All rights reserved.</p>
+<div class="flex gap-8">
+<a class="font-['Space_Grotesk'] uppercase tracking-[0.05em] text-[12px] text-gray-500 hover:text-white transition-colors" href="#">Privacy Policy</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-[0.05em] text-[12px] text-gray-500 hover:text-white transition-colors" href="#">Terms of Service</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-[0.05em] text-[12px] text-gray-500 hover:text-white transition-colors" href="#">Security</a>
+<a class="font-['Space_Grotesk'] uppercase tracking-[0.05em] text-[12px] text-gray-500 hover:text-white transition-colors" href="#">Status</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>
