@@ -1,8 +1,16 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import compression from 'compression';
 import dotenv from 'dotenv';
 import { connectDB } from './config/database';
+import path from 'path';
+
+// Load routes
+import authRoutes from './routes/authRoutes';
+import hubRoutes from './routes/hubRoutes';
+import linkRoutes from './routes/linkRoutes';
+import uploadRoutes from './routes/uploadRoutes';
 
 dotenv.config();
 
@@ -13,19 +21,11 @@ const PORT = process.env.PORT || 5000;
 app.use(helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
+app.use(compression());
 app.use(cors());
 app.use(express.json());
 
-// Database Connection
-connectDB();
-
 // Routes
-import authRoutes from './routes/authRoutes';
-import hubRoutes from './routes/hubRoutes';
-import linkRoutes from './routes/linkRoutes';
-import uploadRoutes from './routes/uploadRoutes';
-import path from 'path';
-
 app.use('/api/auth', authRoutes);
 app.use('/api/hubs', hubRoutes);
 app.use('/api/links', linkRoutes);
@@ -42,7 +42,35 @@ app.get('/', (req, res) => {
     res.send('Smart Link Hub API is running. Check /health for status.');
 });
 
-// Start Server
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Database Connection and Server Start
+const startServer = async () => {
+    try {
+        await connectDB();
+        
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+
+            // Internal Keep-Alive: Pings the server every 10 minutes to prevent sleep on free tiers
+            const SELF_URL = process.env.SELF_URL;
+            if (SELF_URL) {
+                console.log(`[System] Keep-alive initialized for ${SELF_URL}`);
+                setInterval(() => {
+                    const protocol = SELF_URL.startsWith('https') ? require('https') : require('http');
+                    protocol.get(`${SELF_URL}/health`, (res: any) => {
+                        const timestamp = new Date().toISOString();
+                        console.log(`[${timestamp}] Keep-alive heartbeat: ${res.statusCode}`);
+                    }).on('error', (err: any) => {
+                        console.error(`[Keep-alive] Heartbeat failed: ${err.message}`);
+                    });
+                }, 10 * 60 * 1000); // 10 minute interval
+            } else {
+                console.log('[System] SELF_URL not defined. Keep-alive disabled.');
+            }
+        });
+    } catch (err) {
+        console.error('Failed to start server:', err);
+        process.exit(1);
+    }
+};
+
+startServer();

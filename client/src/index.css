@@ -4,42 +4,68 @@
 
 @theme {
   --color-cyber-black: #050505;
-  --color-cyber-dark-gray: #1a1a1a;
+  --color-cyber-dark-gray: #0d0d0d;
   --color-cyber-green: #00ff41;
+  --color-cyber-green-dim: rgba(0, 255, 65, 0.2);
+  --color-cyber-accent: #00e5ff;
   --color-cyber-text: #e5e5e5;
-  --color-cyber-text-muted: #a3a3a3;
+  --color-cyber-text-muted: #888888;
+  --color-cyber-surface: rgba(15, 15, 15, 0.7);
+
+  --color-luxe-black: #000000;
+  --color-luxe-gray: #1d1d1f;
+  --color-luxe-gray-muted: #86868b;
+  --color-luxe-white: #fbfbfb;
+  --color-luxe-accent: #0071e3;
+
+  /* Landing page design system additions */
+  --color-void: #020202;
+  --color-neon: #00eefc;
+  --color-neon-muted: rgba(0, 238, 252, 0.1);
+  --color-on-surface-variant: #d1c1d9;
+  --color-surface-container-low: #1b1b1b;
+  --color-primary-container: #9d00ff;
 
   --font-mono: "JetBrains Mono", monospace;
   --font-sans: "Jost", sans-serif;
   --font-mermaid: "Playfair Display", serif;
+  --font-headline: "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
 
-  --shadow-cyber: 0 0 10px #00ff41;
-  --shadow-cyber-hover: 0 0 20px #00ff41;
+  --shadow-cyber: 0 0 10px rgba(0, 255, 65, 0.3);
+  --shadow-cyber-hover: 0 0 20px rgba(0, 255, 65, 0.6);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+  --shadow-lux: 0 4px 24px rgba(0, 0, 0, 0.04);
+  --shadow-neon-glow: 0 0 20px rgba(0, 238, 252, 0.3);
+
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
 }
 
 :root.light {
-  --color-cyber-black: #f4f4f5;
-  --color-cyber-text: #000000;
-  --color-cyber-dark-gray: #e4e4e7;
-  --color-cyber-text-muted: #52525b;
+  --color-cyber-black: #f8fafc;
+  --color-cyber-text: #0f172a;
+  --color-cyber-dark-gray: #f1f5f9;
+  --color-cyber-text-muted: #64748b;
+  --color-cyber-surface: rgba(255, 255, 255, 0.8);
 }
 
 @layer base {
   body {
-    @apply bg-cyber-black text-cyber-text font-sans antialiased;
+    @apply bg-cyber-black text-cyber-text font-sans antialiased overflow-x-hidden;
+    background-image: 
+      radial-gradient(circle at 50% 50%, rgba(0, 255, 65, 0.03) 0%, transparent 50%),
+      linear-gradient(to bottom, #050505, #0a0a0a);
+    background-attachment: fixed;
   }
 
   button {
-    @apply transition-transform duration-200 active:scale-95;
+    @apply transition-all duration-300 active:scale-95 cursor-pointer;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-mermaid;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-mermaid tracking-tight;
   }
 
   .font-mono {
@@ -47,9 +73,53 @@
   }
 }
 
-/* Custom Scrollbar for Cyber feel */
+@layer utilities {
+  .glass {
+    @apply backdrop-blur-md bg-cyber-surface border border-white/10 shadow-glass;
+  }
+  
+  .glass-green {
+    @apply backdrop-blur-md bg-cyber-green/5 border border-cyber-green/20 shadow-cyber;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 8px var(--color-cyber-green);
+  }
+
+  .bg-cyber-gradient {
+    background: linear-gradient(135deg, #050505 0%, #1a1a1a 100%);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Landing page specific utilities */
+  .kinetic-gradient {
+    background-image: linear-gradient(135deg, #9D00FF 0%, #00E0FF 100%);
+  }
+  .glass-card {
+    background: rgba(53, 53, 53, 0.4);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(78, 67, 86, 0.15);
+  }
+  .hero-glow {
+    background: radial-gradient(circle at center, rgba(157, 0, 255, 0.15) 0%, rgba(19, 19, 19, 0) 70%);
+  }
+  .shadow-neon-glow {
+    box-shadow: 0 0 20px rgba(0, 238, 252, 0.3);
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -57,12 +127,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--color-cyber-green);
-  opacity: 0.5;
-  border-radius: 4px;
+  background: linear-gradient(to bottom, transparent, var(--color-cyber-green), transparent);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--color-cyber-green);
-  opacity: 1;
+  background: var(--color-cyber-green);
 }

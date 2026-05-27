@@ -17,20 +17,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (token) {
-            // Set default header
-            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const fetchUser = async () => {
+            if (token) {
+                try {
+                    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                    const res = await api.get('/auth/me');
+                    setUser(res.data);
+                } catch (err) {
+                    console.error('Failed to fetch user', err);
+                    logout();
+                } finally {
+                    setLoading(false);
+                }
+            } else {
+                delete api.defaults.headers.common['Authorization'];
+                setUser(null);
+                setLoading(false);
+            }
+        };
 
-            // Fix: Set a user object so isOwner checks pass
-            // In a real app, we would fetch the user profile from /api/auth/me
-            // For now, since we have a token, we assume we are the logged-in user.
-            setUser({ id: 'current-user', isAuthenticated: true });
-
-            setLoading(false);
-        } else {
-            delete api.defaults.headers.common['Authorization'];
-            setLoading(false);
-        }
+        fetchUser();
     }, [token]);
 
     const login = (newToken: string) => {
@@ -42,6 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.removeItem('token');
         setToken(null);
         setUser(null);
+        delete api.defaults.headers.common['Authorization'];
     };
 
     return (

@@ -57,7 +57,7 @@ export const HubController = {
     // Get My Hubs
     getMyHubs: async (req: Request | any, res: Response | any) => {
         try {
-            const hubs = await LinkHub.find({ ownerId: req.user.id });
+            const hubs = await LinkHub.find({ ownerId: req.user.id }).lean();
             res.json(hubs);
         } catch (err: any) {
             console.error(err.message);
@@ -96,18 +96,18 @@ export const HubController = {
     // PUBLIC: Get Resolved Hub
     getPublicHub: async (req: Request | any, res: Response | any) => {
         try {
-            const hub = await LinkHub.findOne({ slug: req.params.slug });
+            const hub = await LinkHub.findOne({ slug: req.params.slug }).lean();
             if (!hub) return res.status(404).json({ message: 'Hub not found' });
 
             // Background: Increment View Count
             LinkHub.findByIdAndUpdate(hub._id, { $inc: { 'stats.totalViews': 1 } }).exec();
 
             // Fetch Links
-            const links = await Link.find({ hubId: hub._id });
+            const links = await Link.find({ hubId: hub._id }).lean();
 
             // Resolve Links
             const populatedHub: PopulatedLinkHub = {
-                ...hub.toObject(),
+                ...hub,
                 links
             } as unknown as PopulatedLinkHub;
 
@@ -142,7 +142,7 @@ export const HubController = {
     // ADMIN: Get Full Hub for Management
     getHubAdmin: async (req: Request | any, res: Response | any) => {
         try {
-            const hub = await LinkHub.findOne({ slug: req.params.slug });
+            const hub = await LinkHub.findOne({ slug: req.params.slug }).lean();
             if (!hub) return res.status(404).json({ message: 'Hub not found' });
 
             // Authorization Check
@@ -151,7 +151,7 @@ export const HubController = {
             }
 
             // Fetch All Links (No Resolution/Filtering)
-            const links = await Link.find({ hubId: hub._id });
+            const links = await Link.find({ hubId: hub._id }).lean();
 
             res.json({
                 hub,
