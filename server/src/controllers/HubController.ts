@@ -11,6 +11,10 @@ const CreateHubSchema = z.object({
         backgroundColor: z.string().optional(),
         textColor: z.string().optional(),
         buttonColor: z.string().optional(),
+        avatarUrl: z.string().optional(),
+        wallpaperUrl: z.string().optional(),
+        backgroundEffect: z.string().optional(),
+        customCss: z.string().optional(),
     }).optional(),
 });
 
@@ -22,6 +26,9 @@ const UpdateHubSchema = z.object({
         textColor: z.string().optional(),
         buttonColor: z.string().optional(),
         avatarUrl: z.string().optional(),
+        wallpaperUrl: z.string().optional(),
+        backgroundEffect: z.string().optional(),
+        customCss: z.string().optional(),
     }).optional(),
 });
 
