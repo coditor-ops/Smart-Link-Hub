@@ -50,7 +50,7 @@ const startServer = async () => {
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
 
-            // Internal Keep-Alive: Pings the server every 10 minutes to prevent sleep on free tiers
+            // Internal Keep-Alive: Pings the server every 8 minutes to prevent sleep on free tiers
             const SELF_URL = process.env.SELF_URL;
             if (SELF_URL) {
                 console.log(`[System] Keep-alive initialized for ${SELF_URL}`);
@@ -62,9 +62,13 @@ const startServer = async () => {
                     }).on('error', (err: any) => {
                         console.error(`[Keep-alive] Heartbeat failed: ${err.message}`);
                     });
-                }, 10 * 60 * 1000); // 10 minute interval
+                }, 8 * 60 * 1000); // 8 minute interval
             } else {
-                console.log('[System] SELF_URL not defined. Keep-alive disabled.');
+                console.warn('\n================================================================');
+                console.warn('[System] WARNING: SELF_URL environment variable is not defined!');
+                console.warn('[System] To prevent the backend from sleeping on free hosting (like Render),');
+                console.warn('[System] you MUST set SELF_URL to your deployed backend URL in your hosting provider\'s environment variables.');
+                console.warn('================================================================\n');
             }
         });
     } catch (err) {
