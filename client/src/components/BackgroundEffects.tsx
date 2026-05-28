@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+
 
 interface BackgroundEffectsProps {
     effect: 'none' | 'matrix' | 'particles' | 'rain' | 'glitch' | 'fog';
