@@ -136,19 +136,24 @@ const PublicProfile: React.FC = () => {
     return (
         <Layout>
             {theme.customCss && <style>{theme.customCss}</style>}
+            
+            {/* Full Screen Background Layer */}
             <div 
-                className="min-h-screen px-4 py-12 flex flex-col items-center max-w-2xl mx-auto relative overflow-hidden"
+                className="fixed inset-0 z-[-20]"
                 style={{
                     backgroundColor: bgColor,
                     backgroundImage: bgImage,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
-                    backgroundAttachment: 'fixed'
                 }}
             >
                 {theme.backgroundEffect && theme.backgroundEffect !== 'none' && (
                     <BackgroundEffects effect={theme.backgroundEffect} />
                 )}
+            </div>
+
+            {/* Main Content Container */}
+            <div className="min-h-screen px-4 py-12 flex flex-col items-center max-w-2xl mx-auto relative overflow-hidden">
 
                 {/* Background Decoration */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-cyber-green/5 blur-[120px] rounded-full pointer-events-none z-[-10]"></div>
