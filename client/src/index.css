@@ -20,11 +20,11 @@
 
   /* Landing page design system additions */
   --color-void: #020202;
-  --color-neon: #00eefc;
-  --color-neon-muted: rgba(0, 238, 252, 0.1);
-  --color-on-surface-variant: #d1c1d9;
+  --color-neon: #00ff41;
+  --color-neon-muted: rgba(0, 255, 65, 0.1);
+  --color-on-surface-variant: #d1d5db;
   --color-surface-container-low: #1b1b1b;
-  --color-primary-container: #9d00ff;
+  --color-primary-container: #00ff41;
 
   --font-mono: "JetBrains Mono", monospace;
   --font-sans: "Jost", sans-serif;
@@ -36,7 +36,7 @@
   --shadow-cyber-hover: 0 0 20px rgba(0, 255, 65, 0.6);
   --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
   --shadow-lux: 0 4px 24px rgba(0, 0, 0, 0.04);
-  --shadow-neon-glow: 0 0 20px rgba(0, 238, 252, 0.3);
+  --shadow-neon-glow: 0 0 20px rgba(0, 255, 65, 0.3);
 
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
@@ -96,18 +96,36 @@
 
   /* Landing page specific utilities */
   .kinetic-gradient {
-    background-image: linear-gradient(135deg, #9D00FF 0%, #00E0FF 100%);
+    background-image: linear-gradient(135deg, #00ff41 0%, #00a129 100%);
   }
   .glass-card {
-    background: rgba(53, 53, 53, 0.4);
+    background: rgba(10, 15, 10, 0.4);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(78, 67, 86, 0.15);
+    border: 1px solid rgba(0, 255, 65, 0.15);
   }
   .hero-glow {
-    background: radial-gradient(circle at center, rgba(157, 0, 255, 0.15) 0%, rgba(19, 19, 19, 0) 70%);
+    background: radial-gradient(circle at center, rgba(0, 255, 65, 0.15) 0%, rgba(19, 19, 19, 0) 70%);
   }
   .shadow-neon-glow {
-    box-shadow: 0 0 20px rgba(0, 238, 252, 0.3);
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+  }
+  
+  .water-reflection {
+    transform: scaleY(-1);
+    mask-image: linear-gradient(to bottom, transparent 10%, rgba(0, 0, 0, 0.4) 60%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 10%, rgba(0, 0, 0, 0.4) 60%);
+    pointer-events: none;
+    user-select: none;
+  }
+  
+  .waterline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.3), transparent);
+    box-shadow: 0 -2px 10px rgba(0, 255, 65, 0.2);
   }
 }
 
