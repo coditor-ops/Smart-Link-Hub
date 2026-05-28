@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import api from '../services/api';
 import Layout from '../components/Layout';
 import LinkCard from '../components/LinkCard';
