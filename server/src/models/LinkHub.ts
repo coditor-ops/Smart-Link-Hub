@@ -21,10 +21,13 @@ const LinkHubSchema: Schema = new Schema(
         ownerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
         webhookUrl: { type: String },
         themeConfig: {
-            backgroundColor: { type: String, default: '#ffffff' },
-            textColor: { type: String, default: '#000000' },
+            backgroundColor: { type: String, default: '#0a0a0a' },
+            textColor: { type: String, default: '#ffffff' },
             buttonColor: { type: String, default: '#007bff' },
             avatarUrl: { type: String },
+            wallpaperUrl: { type: String },
+            backgroundEffect: { type: String, default: 'none', enum: ['none', 'matrix', 'particles', 'rain', 'glitch', 'fog'] },
+            customCss: { type: String },
         },
         stats: {
             totalViews: { type: Number, default: 0 },

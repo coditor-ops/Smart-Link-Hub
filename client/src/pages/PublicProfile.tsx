@@ -7,6 +7,7 @@ import LinkCard from '../components/LinkCard';
 import ProfileHeader from '../components/ProfileHeader';
 import Loading from '../components/Loading';
 import { Terminal, Shield } from 'lucide-react';
+import BackgroundEffects from '../components/BackgroundEffects';
 
 interface Link {
     _id: string;
@@ -128,11 +129,29 @@ const PublicProfile: React.FC = () => {
         );
     }
 
+    const theme = data.hub.themeConfig || {};
+    const bgColor = theme.backgroundColor || '#0a0a0a';
+    const bgImage = theme.wallpaperUrl ? `url(${theme.wallpaperUrl})` : 'none';
+
     return (
         <Layout>
-            <div className="min-h-screen px-4 py-12 flex flex-col items-center max-w-2xl mx-auto relative overflow-hidden">
+            {theme.customCss && <style>{theme.customCss}</style>}
+            <div 
+                className="min-h-screen px-4 py-12 flex flex-col items-center max-w-2xl mx-auto relative overflow-hidden"
+                style={{
+                    backgroundColor: bgColor,
+                    backgroundImage: bgImage,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundAttachment: 'fixed'
+                }}
+            >
+                {theme.backgroundEffect && theme.backgroundEffect !== 'none' && (
+                    <BackgroundEffects effect={theme.backgroundEffect} />
+                )}
+
                 {/* Background Decoration */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-cyber-green/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-cyber-green/5 blur-[120px] rounded-full pointer-events-none z-[-10]"></div>
                 
                 <ProfileHeader
                     username={data.hub.slug}

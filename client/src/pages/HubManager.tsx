@@ -39,6 +39,8 @@ const HubManager: React.FC = () => {
     const [hubSlug, setHubSlug] = useState('');
     const [webhookUrl, setWebhookUrl] = useState('');
     const [showUpload, setShowUpload] = useState(false);
+    const [uploadTarget, setUploadTarget] = useState<'avatar' | 'wallpaper'>('avatar');
+    const [themeConfig, setThemeConfig] = useState<any>({});
 
     useEffect(() => {
         fetchHubData();
@@ -50,6 +52,7 @@ const HubManager: React.FC = () => {
             setData(res.data);
             setHubSlug(res.data.hub.slug);
             setWebhookUrl(res.data.hub.webhookUrl || '');
+            setThemeConfig(res.data.hub.themeConfig || {});
             setLoading(false);
         } catch (err: any) {
             console.error(err);
@@ -61,7 +64,11 @@ const HubManager: React.FC = () => {
     const handleUpdateHub = async () => {
         if (!data) return;
         try {
-            await api.put(`/hubs/${data.hub._id}`, { slug: hubSlug, webhookUrl });
+            await api.put(`/hubs/${data.hub._id}`, { 
+                slug: hubSlug, 
+                webhookUrl,
+                themeConfig
+            });
             alert('CONFIGURATION_UPDATED');
         } catch (err) {
             alert('UPDATE_FAILED');
@@ -80,21 +87,21 @@ const HubManager: React.FC = () => {
             const imageUrl = `${api.defaults.baseURL?.replace('/api', '')}${res.data.url}`;
 
             if (data) {
+                const newTheme = {
+                    ...themeConfig,
+                    [uploadTarget === 'avatar' ? 'avatarUrl' : 'wallpaperUrl']: imageUrl
+                };
+                
                 await api.put(`/hubs/${data.hub._id}`, {
-                    themeConfig: {
-                        ...data.hub.themeConfig,
-                        avatarUrl: imageUrl
-                    }
+                    themeConfig: newTheme
                 });
 
+                setThemeConfig(newTheme);
                 setData(prev => prev ? ({
                     ...prev,
                     hub: {
                         ...prev.hub,
-                        themeConfig: {
-                            ...prev.hub.themeConfig,
-                            avatarUrl: imageUrl
-                        }
+                        themeConfig: newTheme
                     }
                 }) : null);
             }
@@ -214,7 +221,7 @@ const HubManager: React.FC = () => {
                                         className="w-16 h-16 rounded-full border border-cyber-green/40 object-cover bg-black/40" 
                                     />
                                     <button 
-                                        onClick={() => setShowUpload(true)}
+                                        onClick={() => { setUploadTarget('avatar'); setShowUpload(true); }}
                                         className="text-[10px] font-mono font-bold text-cyber-green glass-green px-4 py-2 rounded-lg hover:bg-cyber-green hover:text-black transition-all uppercase"
                                     >
                                         Change Image
@@ -234,7 +241,7 @@ const HubManager: React.FC = () => {
                             </div>
                             <div>
                                 <label className="block text-cyber-text-muted font-mono text-[10px] mb-2 uppercase">Webhook URL</label>
-                                <div className="flex bg-black/40 rounded-lg border border-white/10 focus-within:border-cyber-green/50 transition-all overflow-hidden">
+                                <div className="flex bg-black/40 rounded-lg border border-white/10 focus-within:border-cyber-green/50 transition-all overflow-hidden mb-4">
                                    <input
                                         type="text"
                                         value={webhookUrl}
@@ -244,6 +251,66 @@ const HubManager: React.FC = () => {
                                     />
                                 </div>
                             </div>
+                            
+                            <hr className="border-white/10 my-6" />
+                            <h3 className="text-[10px] font-mono text-cyber-green mb-4 uppercase tracking-[0.2em]">Appearance</h3>
+
+                            <div>
+                                <label className="block text-cyber-text-muted font-mono text-[10px] mb-2 uppercase">Background Color</label>
+                                <div className="flex items-center gap-4 mb-4">
+                                    <input 
+                                        type="color" 
+                                        value={themeConfig.backgroundColor || '#0a0a0a'} 
+                                        onChange={e => setThemeConfig({...themeConfig, backgroundColor: e.target.value})}
+                                        className="w-10 h-10 rounded bg-transparent border-0 cursor-pointer"
+                                    />
+                                    <span className="text-white font-mono text-xs">{themeConfig.backgroundColor || '#0a0a0a'}</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-cyber-text-muted font-mono text-[10px] mb-2 uppercase">Background Wallpaper</label>
+                                <div className="flex items-center gap-4 mb-4">
+                                    {themeConfig.wallpaperUrl ? (
+                                        <img src={themeConfig.wallpaperUrl} alt="Wallpaper" className="w-16 h-16 rounded border border-cyber-green/40 object-cover bg-black/40" />
+                                    ) : (
+                                        <div className="w-16 h-16 rounded border border-white/10 flex items-center justify-center text-white/20 text-xs font-mono">None</div>
+                                    )}
+                                    <button 
+                                        onClick={() => { setUploadTarget('wallpaper'); setShowUpload(true); }}
+                                        className="text-[10px] font-mono font-bold text-cyber-green glass-green px-4 py-2 rounded-lg hover:bg-cyber-green hover:text-black transition-all uppercase"
+                                    >
+                                        Change Wallpaper
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-cyber-text-muted font-mono text-[10px] mb-2 uppercase">Background Effect</label>
+                                <select 
+                                    value={themeConfig.backgroundEffect || 'none'}
+                                    onChange={e => setThemeConfig({...themeConfig, backgroundEffect: e.target.value})}
+                                    className="w-full bg-black/40 text-white p-3 rounded-lg border border-white/10 focus:outline-none focus:border-cyber-green/50 font-mono text-sm mb-4"
+                                >
+                                    <option value="none">None</option>
+                                    <option value="matrix">Matrix Rain</option>
+                                    <option value="particles">Cyber Particles</option>
+                                    <option value="rain">Digital Rain</option>
+                                    <option value="glitch">Glitch Overlay</option>
+                                    <option value="fog">Nebula Fog</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="block text-cyber-text-muted font-mono text-[10px] mb-2 uppercase">Custom CSS (Advanced)</label>
+                                <textarea
+                                    value={themeConfig.customCss || ''}
+                                    onChange={e => setThemeConfig({...themeConfig, customCss: e.target.value})}
+                                    placeholder="body { ... }"
+                                    className="w-full bg-black/40 text-white p-3 rounded-lg border border-white/10 focus:outline-none focus:border-cyber-green/50 font-mono text-xs font-mono h-24"
+                                />
+                            </div>
+
                             <button
                                 onClick={handleUpdateHub}
                                 className="w-full bg-cyber-green/10 text-cyber-green border border-cyber-green/30 hover:bg-cyber-green hover:text-black py-3 rounded-lg font-mono font-bold transition-all flex items-center justify-center gap-2"
