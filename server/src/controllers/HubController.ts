@@ -16,6 +16,7 @@ const CreateHubSchema = z.object({
 
 const UpdateHubSchema = z.object({
     slug: z.string().optional(),
+    webhookUrl: z.string().url().optional().or(z.literal('')),
     themeConfig: z.object({
         backgroundColor: z.string().optional(),
         textColor: z.string().optional(),
@@ -78,6 +79,7 @@ export const HubController = {
             }
 
             if (validatedData.slug) hub.slug = validatedData.slug;
+            if (validatedData.webhookUrl !== undefined) hub.webhookUrl = validatedData.webhookUrl;
             if (validatedData.themeConfig) {
                 hub.themeConfig = { ...hub.themeConfig, ...validatedData.themeConfig };
             }

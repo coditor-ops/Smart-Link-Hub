@@ -4,6 +4,7 @@ import api from '../services/api';
 import { ArrowLeft, Save, Plus, Edit2, Trash2, Smartphone, Globe, Clock, MousePointer, Download, QrCode, BarChart, Settings } from 'lucide-react';
 import LinkEditor from '../components/LinkEditor';
 import HubQRCode from '../components/HubQRCode';
+import ImageUpload from '../components/ImageUpload';
 import { downloadStatsReport } from '../utils/analyticsExporter';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -22,6 +23,7 @@ interface HubData {
     hub: {
         _id: string;
         slug: string;
+        webhookUrl?: string;
         themeConfig: any;
     };
     links: LinkType[];
@@ -35,6 +37,8 @@ const HubManager: React.FC = () => {
     const [editingLink, setEditingLink] = useState<LinkType | null>(null);
     const [isEditorOpen, setIsEditorOpen] = useState(false);
     const [hubSlug, setHubSlug] = useState('');
+    const [webhookUrl, setWebhookUrl] = useState('');
+    const [showUpload, setShowUpload] = useState(false);
 
     useEffect(() => {
         fetchHubData();
@@ -45,6 +49,7 @@ const HubManager: React.FC = () => {
             const res = await api.get(`/hubs/manage/${slug}`);
             setData(res.data);
             setHubSlug(res.data.hub.slug);
+            setWebhookUrl(res.data.hub.webhookUrl || '');
             setLoading(false);
         } catch (err: any) {
             console.error(err);
@@ -56,10 +61,49 @@ const HubManager: React.FC = () => {
     const handleUpdateHub = async () => {
         if (!data) return;
         try {
-            await api.put(`/hubs/${data.hub._id}`, { slug: hubSlug });
+            await api.put(`/hubs/${data.hub._id}`, { slug: hubSlug, webhookUrl });
             alert('CONFIGURATION_UPDATED');
         } catch (err) {
             alert('UPDATE_FAILED');
+        }
+    };
+
+    const handleUploadAvatar = async (file: File) => {
+        try {
+            const formData = new FormData();
+            formData.append('image', file);
+
+            setLoading(true);
+            const res = await api.post('/upload', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            const imageUrl = `${api.defaults.baseURL?.replace('/api', '')}${res.data.url}`;
+
+            if (data) {
+                await api.put(`/hubs/${data.hub._id}`, {
+                    themeConfig: {
+                        ...data.hub.themeConfig,
+                        avatarUrl: imageUrl
+                    }
+                });
+
+                setData(prev => prev ? ({
+                    ...prev,
+                    hub: {
+                        ...prev.hub,
+                        themeConfig: {
+                            ...prev.hub.themeConfig,
+                            avatarUrl: imageUrl
+                        }
+                    }
+                }) : null);
+            }
+        } catch (error) {
+            console.error("Upload failed", error);
+            alert("UPLOAD_FAILED");
+        } finally {
+            setLoading(false);
+            setShowUpload(false);
         }
     };
 
@@ -162,12 +206,40 @@ const HubManager: React.FC = () => {
                         </h2>
                         <div className="space-y-4">
                             <div>
+                                <label className="block text-cyber-text-muted font-mono text-[10px] mb-2 uppercase">Profile Image</label>
+                                <div className="flex items-center gap-4 mb-4">
+                                    <img 
+                                        src={data.hub.themeConfig?.avatarUrl || `https://ui-avatars.com/api/?name=${data.hub.slug}&background=00ff41&color=000&bold=true`} 
+                                        alt="Avatar" 
+                                        className="w-16 h-16 rounded-full border border-cyber-green/40 object-cover bg-black/40" 
+                                    />
+                                    <button 
+                                        onClick={() => setShowUpload(true)}
+                                        className="text-[10px] font-mono font-bold text-cyber-green glass-green px-4 py-2 rounded-lg hover:bg-cyber-green hover:text-black transition-all uppercase"
+                                    >
+                                        Change Image
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
                                 <label className="block text-cyber-text-muted font-mono text-[10px] mb-2 uppercase">Slug</label>
-                                <div className="flex bg-black/40 rounded-lg border border-white/10 focus-within:border-cyber-green/50 transition-all overflow-hidden">
+                                <div className="flex bg-black/40 rounded-lg border border-white/10 focus-within:border-cyber-green/50 transition-all overflow-hidden mb-4">
                                    <input
                                         type="text"
                                         value={hubSlug}
                                         onChange={e => setHubSlug(e.target.value)}
+                                        className="w-full bg-transparent text-white p-3 focus:outline-none font-mono text-sm"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-cyber-text-muted font-mono text-[10px] mb-2 uppercase">Webhook URL</label>
+                                <div className="flex bg-black/40 rounded-lg border border-white/10 focus-within:border-cyber-green/50 transition-all overflow-hidden">
+                                   <input
+                                        type="text"
+                                        value={webhookUrl}
+                                        onChange={e => setWebhookUrl(e.target.value)}
+                                        placeholder="https://n8n.my-server.com/webhook/..."
                                         className="w-full bg-transparent text-white p-3 focus:outline-none font-mono text-sm"
                                     />
                                 </div>
@@ -340,6 +412,15 @@ const HubManager: React.FC = () => {
                     </AnimatePresence>
                 </div>
             </div>
+
+            <AnimatePresence>
+                {showUpload && (
+                    <ImageUpload
+                        onUpload={handleUploadAvatar}
+                        onCancel={() => setShowUpload(false)}
+                    />
+                )}
+            </AnimatePresence>
         </motion.div>
     );
 };

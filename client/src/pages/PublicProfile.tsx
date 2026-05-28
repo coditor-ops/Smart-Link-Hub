@@ -6,9 +6,7 @@ import Layout from '../components/Layout';
 import LinkCard from '../components/LinkCard';
 import ProfileHeader from '../components/ProfileHeader';
 import Loading from '../components/Loading';
-import ImageUpload from '../components/ImageUpload';
 import { Terminal, Shield } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
 
 interface Link {
     _id: string;
@@ -31,14 +29,9 @@ interface HubData {
 
 const PublicProfile: React.FC = () => {
     const { slug } = useParams<{ slug: string }>();
-    const { user } = useAuth();
     const [data, setData] = useState<HubData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<{ status: number, message: string } | null>(null);
-    const [showUpload, setShowUpload] = useState(false);
-    const [uploadTarget, setUploadTarget] = useState<{ type: 'profile' | 'link', id?: string } | null>(null);
-
-    const isOwner = user && data?.hub?.ownerId === (user as any)._id;
 
     useEffect(() => {
         const fetchHub = async (locationData?: any) => {
@@ -100,44 +93,7 @@ const PublicProfile: React.FC = () => {
         }
     };
 
-    const handleUpload = async (file: File) => {
-        try {
-            const formData = new FormData();
-            formData.append('image', file);
 
-            setLoading(true);
-            const res = await api.post('/upload', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
-            const imageUrl = `${api.defaults.baseURL?.replace('/api', '')}${res.data.url}`;
-
-            if (uploadTarget?.type === 'profile' && data) {
-                await api.put(`/hubs/${data.hub._id}`, {
-                    themeConfig: {
-                        ...data.hub.themeConfig,
-                        avatarUrl: imageUrl
-                    }
-                });
-
-                setData(prev => prev ? ({
-                    ...prev,
-                    hub: {
-                        ...prev.hub,
-                        themeConfig: {
-                            ...prev.hub.themeConfig,
-                            avatarUrl: imageUrl
-                        }
-                    }
-                }) : null);
-            }
-        } catch (error) {
-            console.error("Upload failed", error);
-            alert("UPLOAD_FAILED");
-        } finally {
-            setLoading(false);
-            setShowUpload(false);
-        }
-    };
 
     if (loading) {
         return (
@@ -181,12 +137,7 @@ const PublicProfile: React.FC = () => {
                 <ProfileHeader
                     username={data.hub.slug}
                     avatarUrl={data.hub.themeConfig?.avatarUrl}
-                    isOwner={isOwner}
-                    onEditProfile={() => console.log("Edit")}
-                    onUploadAvatar={() => {
-                        setUploadTarget({ type: 'profile' });
-                        setShowUpload(true);
-                    }}
+                    isOwner={false}
                 />
 
                 <motion.div 
@@ -201,7 +152,7 @@ const PublicProfile: React.FC = () => {
                             title={link.title}
                             url={link.originalUrl}
                             onClick={() => handleLinkClick(link._id)}
-                            showClickCount={isOwner}
+                            showClickCount={false}
                             clickCount={link.clicks || 0}
                             imageUrl={link.imageUrl}
                         />
@@ -224,14 +175,6 @@ const PublicProfile: React.FC = () => {
                     </div>
                 </footer>
 
-                <AnimatePresence>
-                    {showUpload && (
-                        <ImageUpload
-                            onUpload={handleUpload}
-                            onCancel={() => setShowUpload(false)}
-                        />
-                    )}
-                </AnimatePresence>
             </div>
         </Layout>
     );

@@ -3,6 +3,7 @@ import mongoose, { Document, Schema, Types } from 'mongoose';
 export interface ILinkHub extends Document {
     slug: string;
     ownerId: Types.ObjectId;
+    webhookUrl?: string;
     themeConfig: {
         backgroundColor: string;
         textColor: string;
@@ -18,6 +19,7 @@ const LinkHubSchema: Schema = new Schema(
     {
         slug: { type: String, required: true, unique: true },
         ownerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+        webhookUrl: { type: String },
         themeConfig: {
             backgroundColor: { type: String, default: '#ffffff' },
             textColor: { type: String, default: '#000000' },

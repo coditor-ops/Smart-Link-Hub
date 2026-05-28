@@ -168,6 +168,33 @@ export const LinkController = {
             link.analytics.clicks += 1;
             await link.save();
 
+            // Webhook Integration
+            const hub = await LinkHub.findById(link.hubId);
+            if (hub && hub.webhookUrl) {
+                const payload = {
+                    event: 'link.clicked',
+                    timestamp: new Date().toISOString(),
+                    data: {
+                        hubSlug: hub.slug,
+                        linkTitle: link.title,
+                        shortUrl: `${req.protocol}://${req.get('host')}/r/${link.shortHash}`,
+                        destinationUrl: link.originalUrl,
+                        clickAnalytics: {
+                            userAgent: req.headers['user-agent'] || '',
+                        }
+                    }
+                };
+                
+                // Fire and forget asynchronous fetch
+                fetch(hub.webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                }).catch(err => {
+                    console.error('Webhook delivery failed:', err.message);
+                });
+            }
+
             res.json({ message: 'Click recorded', url: link.originalUrl });
         } catch (err: any) {
             console.error(err.message);
