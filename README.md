@@ -43,9 +43,6 @@ You can set up and run both client and server concurrently from the root directo
 npm run install:all
 npm run dev
 ```
-This will start:
-- The **Frontend (React + Vite)** on `http://localhost:5173` (serving both the Landing page and client dashboard/login/hubs).
-- The **Backend API** on `http://localhost:5000`.
 
 ### 2. Manual Setup (Alternative)
 
